@@ -1,35 +1,39 @@
 import api from '@/firebase/api.firebase';
-import { Post, User } from '@/class';
+import { Board, User } from '@/class';
 
 export default {
   data() {
-    return {
-      postWriterUid: '',
-      postPassword: '',
-      postInitBoardName: '',
-      postNumber: 0,
-      postTitle: '',
-      postHtmlUid: '',
-      postFileUid: [''],
-    };
+    return {};
   },
   methods: {
-    async createFile(this: any) {
+    createFile(this: any) {
       // console.log(this.$refs.fileInput.files);
       api.firebaseStorage.file.create(this.$refs.fileInput.files[0]);
     },
-    // ??? this: any 써도됨?
-    async createPost(this: any) {
-      const post = new Post({
-        _writerUid: null,
+    // TODO this: any 대신 @component로 사용하는거 찾아보기
+    createBoardByMember(this: any) {
+      const board = new Board({
+        _writerUid: '회원',
         _password: null,
-        _initBoardName: this.postInitBoardName,
-        _postNumber: this.postNumber,
-        _title: this.postTitle,
-        _htmlUid: this.postHtmlUid,
-        _fileUids: this.postFileUid,
+        _initBoardName: '개소리 게시판',
+        _boardNumber: 123,
+        _title: '제목',
+        _htmlUid: 'htmlUid',
+        _fileUids: ['fileUid1', 'fileUid2'],
       });
-      await post.save();
+      board.save();
+    },
+    createBoardByNonMember(this: any) {
+      const board = new Board({
+        _writerUid: null,
+        _password: 'nonMember',
+        _initBoardName: '개소리 게시판',
+        _boardNumber: 123,
+        _title: '제목',
+        _htmlUid: 'htmlUid',
+        _fileUids: ['fileUid1', 'fileUid2'],
+      });
+      board.save();
     },
   },
 };

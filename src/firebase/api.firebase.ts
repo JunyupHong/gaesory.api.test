@@ -1,5 +1,5 @@
 import firebase from './initialize.firebase';
-import { Post, User } from '@/class';
+import { Board, User } from '@/class';
 
 const db = firebase.firestore();
 const settings = { timestampsInSnapshots: true };
@@ -26,27 +26,9 @@ const firebaseDB = {
     },
   },
   post: {
-    create(data: Post) {
+    create(board: Board) {
       db.collection('posts')
-        .add({
-          // TODO assign된 data를 바로 저장하게 하기
-          // {data} 로 할 수 있게!
-          writerUid: data.writerUid, // 비회원은 undefined
-          password: data.password, // 회원은 undefined
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-          postNumber: data.postNumber,
-          title: data.title,
-          hits: data.hits,
-          recommend: data.recommend,
-          decommend: data.decommend,
-          accusation: data.accusation,
-          commentUids: data.commentsUids,
-          initBoardName: data.initBoardName,
-          tags: data.tags,
-          htmlUid: data.htmlUid,
-          fileUids: data.fileUids,
-        })
+        .add(board.data)
         .then((docRef) => {
           alert('Document written with ID: ' + docRef.id);
         })

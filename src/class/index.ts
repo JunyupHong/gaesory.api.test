@@ -1,4 +1,4 @@
-import Post from './Post';
+import Board from './Board';
 import User from './User';
 
-export { Post, User };
+export { Board, User };

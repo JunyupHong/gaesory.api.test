@@ -1,29 +1,10 @@
 <template>
   <div class="apiTest">
-    <div class="test"> Post Test
-      <input type="text"
-             placeholder="writerUid"
-             v-model="postWriterUid">
-      <input type="text"
-             placeholder="passward 선택!"
-             v-model="postPassword">
-      <input type="text"
-             placeholder="initBoardName"
-             v-model="postInitBoardName">
-      <input type="number"
-             placeholder="postNumber"
-             v-model="postNumber">
-      <input type="text"
-             placeholder="title"
-             v-model="postTitle">
-      <input type="text"
-             placeholder="htmlUid"
-             v-model="postHtmlUid">
-      <input type="text"
-             placeholder="fileUid"
-             v-model="postFileUid[0]">
-      <button @click="createPost">Save Post</button>
+    <div class="test"> Board Test
+      <button @click="createBoardByMember">Save Board by Member</button>
+      <button @click="createBoardByNonMember">Save Board by NonMember</button>
     </div>
+
     <div class="test"> File Test
       <input type="file"
              accept=".jpg, .jpeg, .png"
