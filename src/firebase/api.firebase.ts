@@ -27,12 +27,18 @@ const firebaseDB = {
   },
   post: {
     create(board: Board) {
-      db.collection('posts')
-        .add(board.data)
+      db.collection(`posts`)
+        .doc(board.data._uid)
+        .set(board.data)
         .then((docRef) => {
-          alert('Document written with ID: ' + docRef.id);
+          if (board.data._writerUid) {
+            alert('Member save Board with ID: ' + board.data._uid);
+          } else {
+            alert('nonMember save Board with ID: ' + board.data._uid);
+          }
         })
         .catch((error) => {
+          // ??? throw error;
           alert('Error adding document: ' + error);
         });
     },

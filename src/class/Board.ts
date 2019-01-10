@@ -1,4 +1,5 @@
 import api from '@/firebase/api.firebase';
+import getUid from 'uuid/v4';
 
 /* tslint:disable:variable-name */
 interface ObtainBoardData {
@@ -28,6 +29,7 @@ interface BoardData extends ObtainBoardData, DefaultBoardData {
 class Board {
   private _data: BoardData;
   constructor(obtainData: ObtainBoardData) {
+    const uid = getUid();
     const defaultData: DefaultBoardData = {
       _createdAt: new Date().getTime(),
       _updatedAt: new Date().getTime(),
@@ -41,13 +43,13 @@ class Board {
 
     // TODO uuid를 사용해서 uid 받기
     // this._uid = undefined;
-    this._data = Object.assign(defaultData, obtainData, { _uid: '' });
+    this._data = Object.assign(defaultData, obtainData, { _uid: uid });
   }
   get data(): BoardData {
     return this._data;
   }
 
-  // ??? getter는 쓸모가 없을까?
+  // ??? getter는 쓸모가 없을까? 일단 주석처리
   // get writerUid(): string | null {
   //   return this._data._writerUid;
   // }
