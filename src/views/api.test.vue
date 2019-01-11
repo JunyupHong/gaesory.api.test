@@ -1,8 +1,14 @@
 <template>
   <div class="apiTest">
+    <div class="test"> Error Test
+      <button @click="createError">Make Error</button>
+    </div>
     <div class="test"> Board Test
       <button @click="createBoardByMember">Save Board by Member</button>
       <button @click="createBoardByNonMember">Save Board by NonMember</button>
+      <button @click="getBoardData">Get Board Data</button>
+      <button @click="getAllBoardData">Get All Board Data</button>
+
     </div>
 
     <div class="test"> File Test

@@ -2,7 +2,7 @@ import api from '@/firebase/api.firebase';
 import getUid from 'uuid/v4';
 
 /* tslint:disable:variable-name */
-interface ObtainBoardData {
+export interface ObtainBoardData {
   // 생성할때 외부에서 받아야할 인자들
   _writerUid: string | null; // (회원은 uid, 비회원은 null)
   _password: string | null; // (회원은 null, 비회원은 설정한값)
@@ -11,10 +11,13 @@ interface ObtainBoardData {
   _title: string; // 제목
   _htmlUid: string; // storage에 저장된 html의 uid
   _fileUids: string[]; // html에 있는 file들의 uid
+  // guild: string;
 }
+
 interface DefaultBoardData {
-  _createdAt: number;
-  _updatedAt: number;
+  _uid: string;
+  _createdAt: number | undefined;
+  _updatedAt: number | undefined;
   _hits: number;
   _recommend: number;
   _decommend: number;
@@ -22,17 +25,21 @@ interface DefaultBoardData {
   _commentUids: string[];
   _tags: string[];
 }
-interface BoardData extends ObtainBoardData, DefaultBoardData {
-  _uid: string;
-}
+interface BoardData extends ObtainBoardData, DefaultBoardData {}
 
 class Board {
+  public static async generate(postUid?: string) {
+    return await api.firebaseDB.post.read(postUid);
+  }
+
   private _data: BoardData;
+
   constructor(obtainData: ObtainBoardData) {
     const uid = getUid();
     const defaultData: DefaultBoardData = {
-      _createdAt: new Date().getTime(),
-      _updatedAt: new Date().getTime(),
+      _uid: getUid(),
+      _createdAt: undefined,
+      _updatedAt: undefined,
       _hits: 0,
       _recommend: 0,
       _decommend: 0,
@@ -41,10 +48,9 @@ class Board {
       _tags: [],
     };
 
-    // TODO uuid를 사용해서 uid 받기
-    // this._uid = undefined;
-    this._data = Object.assign(defaultData, obtainData, { _uid: uid });
+    this._data = Object.assign(defaultData, obtainData);
   }
+
   get data(): BoardData {
     return this._data;
   }
@@ -96,7 +102,7 @@ class Board {
   //   return this._data._fileUids;
   // }
 
-  public save() {
+  public async save() {
     /** TODO
      * api 사용
      *  storage에 저장 - file, html
@@ -104,15 +110,9 @@ class Board {
      *  db에 저장 - Post 인스턴스
      *  User에 Post의 uid를 저장해줘야함
      */
-
-    // TODO then catch로 error 처리하기
-    api.firebaseDB.post.create(this);
-    // .then()
-    // .catch();
-  }
-
-  public get(postUid: string): object {
-    return {};
+    this._data._createdAt = new Date().getTime();
+    this._data._updatedAt = this._data._createdAt;
+    await api.firebaseDB.post.create(this);
   }
 
   public update(): void {

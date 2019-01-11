@@ -1,5 +1,8 @@
 import firebase from './initialize.firebase';
-import { Board, User } from '@/class';
+import { Board, User, Error as MyError } from '@/class';
+import * as _ from 'lodash';
+import FormUtil from '@/util/form-util';
+import { ObtainBoardData } from '@/class/Board';
 
 const db = firebase.firestore();
 const settings = { timestampsInSnapshots: true };
@@ -27,25 +30,79 @@ const firebaseDB = {
   },
   post: {
     create(board: Board) {
-      db.collection(`posts`)
-        .doc(board.data._uid)
-        .set(board.data)
-        .then((docRef) => {
-          if (board.data._writerUid) {
-            alert('Member save Board with ID: ' + board.data._uid);
-          } else {
-            alert('nonMember save Board with ID: ' + board.data._uid);
-          }
-        })
-        .catch((error) => {
-          // ??? throw error;
-          alert('Error adding document: ' + error);
+      return new Promise((resolve, reject) => {
+        db.collection('posts')
+          .doc(board.data._uid)
+          .set(board.data)
+          .then((docRef) => {
+            alert('success create board with ID: ' + board.data._uid);
+            resolve();
+          })
+          .catch((e) => {
+            reject(new MyError('error create board', e));
+          });
+      });
+    },
+    read: (id?: string) => {
+      // ??? if else를 쓰는게 맞는가??
+      if (id) {
+        return new Promise((resolve, reject) => {
+          db.collection('posts')
+            .doc(id)
+            .get()
+            .then((doc) => {
+              if (doc.exists) {
+                alert('success read board with ID: ' + id);
+                // TODO Util form을 만들어야함 => ObtainBoardData를 만드는 함수를 구현
+                // => 인터페이스를 인자로 바로 넘길 수 없다
+                // ??? util대신 api에서 선택 프로퍼티를 default로 채워주는 메소드를 만드는건?
+
+                try {
+                  resolve(
+                    // new Board(FormUtil.makeDocToObtainBoardData(doc.data())),
+                    new Board(FormUtil.makeDocToObtainBoardData(doc.data())),
+                  );
+                } catch (error) {
+                  reject(
+                    new MyError('error read board by doc data form', error),
+                  );
+                }
+              } else {
+                reject(
+                  new MyError(
+                    'error read board: document is not exist',
+                    new Error('error read board by document is not exist'),
+                  ),
+                );
+              }
+            })
+            .catch((e) => {
+              reject(new MyError('error read board', e));
+            });
         });
+      } else {
+        return new Promise((resolve, reject) => {
+          db.collection('posts')
+            .get()
+            .then((querySnapshot) => {
+              const boards: Board[] = [];
+              querySnapshot.forEach((doc) => {
+                boards.push(
+                  new Board(FormUtil.makeDocToObtainBoardData(doc.data())),
+                );
+              });
+              alert('success read all boards');
+              resolve(boards);
+            })
+            .catch((e) => {
+              reject(new MyError('error read all board', e));
+            });
+        });
+      }
     },
-    read: () => {
-      //
-    },
-    update: () => {
+
+    // update랑 create랑 똑같은데...?
+    update: (board: Board) => {
       //
     },
     delete: () => {

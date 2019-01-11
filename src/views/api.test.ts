@@ -1,11 +1,14 @@
 import api from '@/firebase/api.firebase';
-import { Board, User } from '@/class';
+import { Board, User, Error } from '@/class';
 
 export default {
   data() {
     return {};
   },
   methods: {
+    createError() {
+      //
+    },
     createFile(this: any) {
       // console.log(this.$refs.fileInput.files);
       api.firebaseStorage.file.create(this.$refs.fileInput.files[0]);
@@ -34,6 +37,16 @@ export default {
         _fileUids: ['fileUid1', 'fileUid2'],
       });
       board.save();
+    },
+    async getBoardData(id: string) {
+      const ret = await Board.generate('603996fe-d7e9-4458-be5f-8ac242af141d');
+      alert('get BoardData complete' + ret);
+      // console.log(ret);
+    },
+    async getAllBoardData() {
+      const ret = await Board.generate();
+      alert('get all BoardData complete' + ret);
+      // console.log(ret);
     },
   },
 };
