@@ -11,6 +11,7 @@ const FormUtil = {
     // type obtainBoardkeys = keyof ObtainBoardData;
     // let obtainBoardData: obtainBoardkeys;
     // return Object.assign(obtainBoardData, data);
+
     const obtainBoardData = {} as ObtainBoardData;
     return Object.assign(obtainBoardData, data);
   },

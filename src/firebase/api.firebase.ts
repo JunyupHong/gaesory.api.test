@@ -58,10 +58,7 @@ const firebaseDB = {
                 // ??? util대신 api에서 선택 프로퍼티를 default로 채워주는 메소드를 만드는건?
 
                 try {
-                  resolve(
-                    // new Board(FormUtil.makeDocToObtainBoardData(doc.data())),
-                    new Board(FormUtil.makeDocToObtainBoardData(doc.data())),
-                  );
+                  resolve(doc.data());
                 } catch (error) {
                   reject(
                     new MyError('error read board by doc data form', error),
@@ -87,6 +84,7 @@ const firebaseDB = {
             .then((querySnapshot) => {
               const boards: Board[] = [];
               querySnapshot.forEach((doc) => {
+                // TODO doc.data() arrary를 넘기고 new Board는 Board클래스에서 한다
                 boards.push(
                   new Board(FormUtil.makeDocToObtainBoardData(doc.data())),
                 );

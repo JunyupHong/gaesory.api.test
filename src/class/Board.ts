@@ -1,5 +1,6 @@
 import api from '@/firebase/api.firebase';
 import getUid from 'uuid/v4';
+import FormUtil from '@/util/form-util';
 
 /* tslint:disable:variable-name */
 export interface ObtainBoardData {
@@ -29,7 +30,9 @@ interface BoardData extends ObtainBoardData, DefaultBoardData {}
 
 class Board {
   public static async generate(postUid?: string) {
-    return await api.firebaseDB.post.read(postUid);
+    return new Board(
+      FormUtil.makeDocToObtainBoardData(await api.firebaseDB.post.read(postUid)),
+    );
   }
 
   private _data: BoardData;
@@ -115,8 +118,9 @@ class Board {
     await api.firebaseDB.post.create(this);
   }
 
-  public update(): void {
-    //
+  public update(board: Board) {
+    // _data._writerUid = board._writer
+    // await api.firebaseDB.post.update(this);
   }
 
   public delete(): void {

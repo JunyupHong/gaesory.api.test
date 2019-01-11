@@ -19,6 +19,13 @@
 
       <button @click="createFile">Save File</button>
     </div>
+    <!-- <ckeditor ref="defaultEditor"></ckeditor> -->
+    <ckeditor :toolbarType="'comment'"
+              ref="commentEditor"></ckeditor>
+    <button ref="defaultEditorButton"
+            @click="clickDefaultEditorButton">defaultEditor</button>
+    <button ref="commentEditorButton"
+            @click="clickCommentEditorButton">commentEditor</button>
   </div>
 </template>
 

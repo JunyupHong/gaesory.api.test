@@ -1,11 +1,21 @@
 import api from '@/firebase/api.firebase';
 import { Board, User, Error } from '@/class';
+import editor from '@/components/ckeditor5/ckeditor5.vue';
 
 export default {
   data() {
     return {};
   },
+  components: {
+    ckeditor: editor,
+  },
   methods: {
+    clickDefaultEditorButton() {
+      // console.log('default');
+    },
+    clickCommentEditorButton() {
+      // console.log('comment');
+    },
     createError() {
       //
     },
@@ -39,7 +49,8 @@ export default {
       board.save();
     },
     async getBoardData(id: string) {
-      const ret = await Board.generate('603996fe-d7e9-4458-be5f-8ac242af141d');
+      const ret = await Board.generate('3881501f-42ee-494f-b27a-10e2d3d391b0');
+      // const ret = await Board.generate('29cba344-6a10-443d-91d3-072990f65c2c');
       alert('get BoardData complete' + ret);
       // console.log(ret);
     },
