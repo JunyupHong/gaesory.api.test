@@ -11,7 +11,7 @@
 //   messagingSenderId: '752962651932',
 // };
 // firebase.initializeApp(config);
-import firebase from '@/firebase/initialize.firebase';
+import firebase from '@/api/initialize.firebase';
 
 const storage = firebase.storage();
 const ref = storage.ref().child('test');

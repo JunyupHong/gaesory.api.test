@@ -2,6 +2,6 @@
   "singleQuote": true,
   "trailing-comma": false,
   "no-submodule-imports": false,
-  "no-console": true,
-  "no-implicit-dependencies": false
+  "no-implicit-dependencies": false,
+  "no-console": false
 }

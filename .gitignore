@@ -3,6 +3,7 @@ node_modules
 
 /src/firebase/initialize.firebase.ts
 initialize.firebase.ts
+/src/api/initialize.firebase.ts
 
 # local env files
 .env.local
