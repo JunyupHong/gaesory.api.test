@@ -20,6 +20,8 @@ import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment'; // <— ADD
 import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight';
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
 import AutoSave from '@ckeditor/ckeditor5-autosave/src/autosave';
+import MyUploadAdapter from '@/components/ckeditor5/uploadAdapter.ts';
+import { Board } from '@/api';
 
 export default {
   data() {
@@ -31,6 +33,15 @@ export default {
     toolbarType: {
       type: String,
       default: 'board',
+    },
+    board: {
+      type: Board,
+      required: true,
+    },
+  },
+  methods: {
+    returnHtml(this: any) {
+      return this.editor.getData();
     },
   },
   mounted(this: any) {
@@ -100,6 +111,11 @@ export default {
     })
       .then((newEditor: object) => {
         this.editor = newEditor;
+        this.editor.plugins.get(
+          'FileRepository',
+        ).createUploadAdapter = (loader) => {
+          return new MyUploadAdapter(loader, this.board);
+        };
       })
       .catch((error: object) => {
         // console.error(error);

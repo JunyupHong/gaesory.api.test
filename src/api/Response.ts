@@ -10,13 +10,15 @@ export default class Response<T> {
     this._data = undefined;
     this._error = null;
   }
-  set error(e: Error) {
+  public setError(e: Error) {
     this._error = e;
-  }
-  set data(data) {
-    this._data = data;
-  }
-  get response() {
     return this;
+  }
+  public setData(data) {
+    this._data = data;
+    return this;
+  }
+  get data() {
+    return this._data;
   }
 }

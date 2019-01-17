@@ -4,17 +4,19 @@
 
     </div>
     <div class="test"> Board Test
-      <button @click="aaaa">aaaa</button>
+      <button @click="existCheck">exist check</button>
+      <button @click="createCreatingBoard">createCreatingBoard</button>
+      <button @click="createEditingBoard">createEditingBoard</button>
+      <button @click="createPublishedBoard">createPublishedBoard</button>
+      <button @click="loadBoard">load Board</button>
+      <button @click="deleteBoard">delete Board</button>
 
     </div>
 
-    <!-- <ckeditor ref="defaultEditor"></ckeditor> -->
-    <ckeditor :toolbarType="'comment'"
-              ref="commentEditor"></ckeditor>
-    <button ref="defaultEditorButton"
-            @click="clickDefaultEditorButton">defaultEditor</button>
-    <button ref="commentEditorButton"
-            @click="clickCommentEditorButton">commentEditor</button>
+    <ckeditor ref="defaultEditor"
+              :board="board1"></ckeditor>
+    <button ref="sendButton"
+            @click="send">send</button>
   </div>
 </template>
 

@@ -4,7 +4,8 @@ const { styles } = require('@ckeditor/ckeditor5-dev-utils');
 module.exports = {
   devServer: {
     host: '0.0.0.0',
-    disableHostCheck: true
+    disableHostCheck: true,
+    proxy: 'http://localhost:8080'
   },
   publicPath: '/gaesory.api.test',
   outputDir: undefined,
